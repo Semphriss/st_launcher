@@ -1,3 +1,7 @@
+# st-launcher specifics
+build/
+
+# GitHub defaults
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles

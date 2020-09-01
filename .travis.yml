@@ -30,6 +30,15 @@ os:
   - linux
   - osx
 
+script:
+  - cmake --version
+  - $CXX --version
+  - env
+  - mkdir "build-$BUILD_TYPE"
+  - cd "build-$BUILD_TYPE"
+  - cmake .. -DWARNINGS=ON -DWERROR=ON
+  - make VERBOSE=1
+
 addons:
   apt:
     packages:

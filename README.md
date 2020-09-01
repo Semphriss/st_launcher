@@ -1,5 +1,7 @@
 # SuperTux launcher
 
+![](https://travis-ci.com/semphris-bot/st_launcher.svg?branch=master)
+
 This is a simple program that allows users to manage multiple versions of SuperTux on a single computer.
 
 ### Downloads

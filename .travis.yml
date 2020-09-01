@@ -1,0 +1,84 @@
+# Travis-CI configuration file for SuperTux Launcher
+#
+# Configuration manual:
+# http://docs.travis-ci.com/user/build-configuration/
+#
+# Heavily borrowed from SuperTux's travis.yaml, itself heavily borrowed
+# from SuperTuxKart's travis.yml.
+#
+# SuperTuxKart's travis.yml file can be found here:
+# https://github.com/supertuxkart/stk-code/blob/master/.travis.yml
+# License: https://github.com/supertuxkart/stk-code/blob/master/COPYING
+#
+
+language: cpp
+dist: bionic
+sudo: required
+
+compiler:
+  - gcc
+  - clang
+
+matrix:
+  fast_finish: true
+  exclude:
+  - compiler: gcc
+    os: osx
+  include:
+
+os:
+  - linux
+  - osx
+
+addons:
+  apt:
+    packages:
+    - cmake
+    - build-essential
+    - automake
+    - clang-6.0
+    - g++-8
+    - libc++-dev
+#    - libogg-dev
+#    - libvorbis-dev
+#    - libopenal-dev
+#    - libboost-all-dev
+#    - libsdl2-dev
+#    - libsdl2-image-dev
+#    - libfreetype6-dev
+#    - libharfbuzz-dev
+#    - libfribidi-dev
+#    - libglib2.0-dev
+    - gtk-doc-tools
+    - rpm
+    - sshpass
+  homebrew:
+    packages:
+    - cmake
+    - bash
+#    - libogg
+#    - libvorbis
+#    - glew
+#    - openal-soft
+#    - sdl2
+#    - sdl2_image
+#    - sdl2_ttf
+#    - freetype
+#    - harfbuzz
+#    - fribidi
+    - glib
+    - gtk-doc
+    - glbinding
+    update: true
+  coverity_scan:
+    project:
+      name: "semphris-bot/st_launcher"
+      description: "Build submitted via Travis CI"
+    notification_email: semphris@protonmail.com
+    build_command_prepend: "cmake ."
+    build_command:   "make -j3"
+    branch_pattern: coverity_scan
+
+notifications:
+  email:
+    - semphris@protonmail.com

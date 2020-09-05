@@ -1,6 +1,7 @@
 # SuperTux launcher
 
-![](https://travis-ci.com/semphris-bot/st_launcher.svg?branch=master)
+[![Travis build status](https://travis-ci.com/semphris-bot/st_launcher.svg?branch=master)](https://travis-ci.com/semphris-bot/)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/5c5y2gp7wq65qo5d/?svg=true)](https://ci.appveyor.com/project/semphris-bot/st-launcher/)
 
 This is a simple program that allows users to manage multiple versions of SuperTux on a single computer.
 

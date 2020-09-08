@@ -16,7 +16,7 @@
 
 #include "launcher/main.hpp"
 
-#include <iostream>
+#include "launcher/window.hpp"
 
 Main::Main()
 {
@@ -25,8 +25,7 @@ Main::Main()
 int
 Main::run(int argc, char** argv)
 {
-  std::cout << "Hello, world!" << std::endl;
-  return 0;
+  return Window().show() ? 0 : -1;
 }
 
 /* EOF */

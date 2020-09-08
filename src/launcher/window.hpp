@@ -14,15 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_STLAUNCHER_LAUNCHER_MAIN_HPP
-#define HEADER_STLAUNCHER_LAUNCHER_MAIN_HPP
+#ifndef HEADER_STLAUNCHER_LAUNCHER_WINDOW_HPP
+#define HEADER_STLAUNCHER_LAUNCHER_WINDOW_HPP
 
-class Main final
+class Window final
 {
 public:
-  Main();
+  Window();
   
-  int run(int argc, char** argv);
+  bool show();
 };
 
 #endif

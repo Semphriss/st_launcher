@@ -14,18 +14,28 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "launcher/main.hpp"
+#ifndef HEADER_STLAUNCHER_WIDGETS_MAINMENU_HPP
+#define HEADER_STLAUNCHER_WIDGETS_MAINMENU_HPP
 
-#include "launcher/window.hpp"
+#include <SDL.h>
+#include <sdlgui/screen.h>
 
-Main::Main()
+#include <launcher/window.hpp>
+
+class MainMenuWidget final
 {
-}
+public:
+  MainMenuWidget(sdlgui::Screen* screen, SDL_Renderer* renderer, LauncherWindow* parent_window);
 
-int
-Main::run(int argc, char** argv)
-{
-  return LauncherWindow().show() ? 0 : -1;
-}
+  void show();
+  void hide();
+
+  bool is_visible();
+
+private:
+  LauncherWindow* m_parent_window;
+};
+
+#endif
 
 /* EOF */

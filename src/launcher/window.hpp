@@ -17,12 +17,14 @@
 #ifndef HEADER_STLAUNCHER_LAUNCHER_WINDOW_HPP
 #define HEADER_STLAUNCHER_LAUNCHER_WINDOW_HPP
 
-class Window final
+class LauncherWindow final
 {
 public:
-  Window();
-  
+  LauncherWindow();
+
   bool show();
+
+  bool m_quit;
 };
 
 #endif

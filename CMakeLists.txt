@@ -24,23 +24,28 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # LIB : OpenGL
-find_package(OpenGL REQUIRED)
-include_directories(${OpenGL_INCLUDE_DIRS})
-link_directories(${OpenGL_LIBRARY_DIRS})
-add_definitions(${OpenGL_DEFINITIONS})
-if(NOT OPENGL_FOUND)
-  message(ERROR "OpenGL not found")
-endif(NOT OPENGL_FOUND)
+#find_package(OpenGL REQUIRED)
+#include_directories(${OpenGL_INCLUDE_DIRS})
+#link_directories(${OpenGL_LIBRARY_DIRS})
+#add_definitions(${OpenGL_DEFINITIONS})
+#if(NOT OPENGL_FOUND)
+#  message(ERROR "OpenGL not found")
+#endif(NOT OPENGL_FOUND)
 
 # LIB : SDL
 find_package(SDL2 REQUIRED)
 include_directories(st_launcher_lib ${SDL2_INCLUDE_DIRS})
 
+# EXTERNAL : Nanogui
+set(NANOGUI_BUILD_EXAMPLE Off CACHE BOOL "Disable Nanogui example program" FORCE)
+add_subdirectory(${PROJECT_SOURCE_DIR}/external/nanogui-sdl)
+include_directories(st_launcher_lib ${PROJECT_SOURCE_DIR}/external/nanogui-sdl)
+
 # Launcher library
 file(GLOB st_launcher_src src/*/*.cpp)
 add_library(st_launcher_lib ${st_launcher_src})
 target_include_directories(st_launcher_lib PUBLIC "${PROJECT_SOURCE_DIR}/src")
-target_link_libraries(st_launcher_lib ${OPENGL_LIBRARIES} ${SDL2_LIBRARIES})
+target_link_libraries(st_launcher_lib ${OPENGL_LIBRARIES} ${SDL2_LIBRARIES} nanogui_sdl)
 
 # Executable library
 add_executable(st_launcher "src/main.cpp")

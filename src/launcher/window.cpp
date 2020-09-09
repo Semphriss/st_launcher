@@ -17,16 +17,20 @@
 #include "launcher/window.hpp"
 
 #include <SDL.h>
-#include <GL/gl.h>
+#include "SDL_image.h"
+#include <sdlgui/screen.h>
+#include <iostream>
 
 #include "util/log.hpp"
+#include "widgets/main_menu.hpp"
 
-Window::Window()
+LauncherWindow::LauncherWindow() :
+  m_quit(false)
 {
 }
 
 bool
-Window::show()
+LauncherWindow::show()
 {
   SDL_Window* window;
   SDL_GLContext ctx;
@@ -37,7 +41,7 @@ Window::show()
                             SDL_WINDOWPOS_CENTERED,
                             SDL_WINDOWPOS_CENTERED,
                             640,
-                            400,
+                            480,
                             SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
 
   if (window == NULL)
@@ -48,11 +52,67 @@ Window::show()
 
   ctx = SDL_GL_CreateContext(window);
   SDL_GL_SetSwapInterval(1); // Sync with monitor's vertical refresh
-  glClearColor(0.5,0.8,1.0,1.0);
-  glClear(GL_COLOR_BUFFER_BIT);
   SDL_GL_SwapWindow(window);
 
-  SDL_Delay(3000);
+  SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+  
+  sdlgui::Screen *screen = new sdlgui::Screen(window, sdlgui::Vector2i(800, 600), "My Title");
+  
+  auto main_menu = MainMenuWidget(screen, renderer, this);
+  
+  SDL_Surface *image;
+  image=IMG_Load("../data/images/bkg.png");
+  if(!image) {
+    printf("IMG_Load: %s\n", IMG_GetError());
+    return false;
+  }
+  SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, image);
+  
+  //SDL_SetWindowOpacity(window, 0.5);
+  
+  m_quit = false;
+  try
+  {
+      SDL_Event e;
+      while( !m_quit )
+      {
+          //Handle events on queue
+          while( SDL_PollEvent( &e ) != 0 )
+          {
+              //User requests quit
+              if( e.type == SDL_QUIT )
+              {
+                  m_quit = true;
+              }
+              screen->onEvent( e );
+          }
+          
+          //SDL_SetRenderDrawColor(renderer, 0x80, 0xcd, 0xff, 0x00 );
+          //SDL_RenderClear( renderer );
+          
+          SDL_RenderCopy(renderer, texture, NULL, NULL);
+          SDL_RenderPresent(renderer);
+
+          screen->drawAll();
+
+          // Render the rect to the screen
+          SDL_RenderPresent(renderer);
+
+          //fps.next();
+          SDL_Delay(30);
+      }
+  }
+  catch (const std::runtime_error &e)
+  {
+      std::string error_msg = std::string("Caught a fatal error: ") + std::string(e.what());
+      #if defined(_WIN32)
+          MessageBoxA(nullptr, error_msg.c_str(), NULL, MB_ICONERROR | MB_OK);
+      #else
+          std::cerr << error_msg << std::endl;
+      #endif
+      return false;
+  }
 
   SDL_DestroyWindow(window);
 
